@@ -81,6 +81,10 @@ public class Window {
 		}
 	}
 	
+	public void clearTextBox(){
+		messageField.setText("");
+	}
+	
 	class sendButtonListener implements ActionListener{
 
 		@Override

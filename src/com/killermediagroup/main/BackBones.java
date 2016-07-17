@@ -24,6 +24,7 @@ public class BackBones {
 			socket = new Socket(host, port);
 			outputStream = socket.getOutputStream();
 			inputStream = socket.getInputStream();
+			outputStream.flush();
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Did Not Connect Please Try Restarting");
@@ -39,13 +40,12 @@ public class BackBones {
 		try{
 			while(true){
 				int input;
-				StringBuilder message = new StringBuilder();
+				//StringBuilder message = new StringBuilder();
 				while((input=inputStream.read())!=-1){
-					System.out.print((char)input);
+					//System.out.print((char)input);
 					window.updateChatLog(Character.toString((char) input));
 				}
-				System.out.println(message.toString());
-				window.updateChatLog(message.toString());
+				
 				
 			}
 		}catch(Exception e){
@@ -54,11 +54,15 @@ public class BackBones {
 	}
 	public void sendMessage(){
 		try{
-			//outputStream.flush();
-			byte[] output = (userName+" : "+window.getSentMessage()+'\n').getBytes();
+			byte[] output = ("").getBytes();
+			outputStream.flush();
+			if(window.getSentMessage().isEmpty()){
+				return;
+			}
+			output = (userName+" : "+window.getSentMessage()+'\n').getBytes();
 			outputStream.write(output);
 			outputStream.flush();
-			System.out.println(window.getSentMessage());
+			window.clearTextBox();
 			//window.updateChatLog("this is a test");
 		}catch(Exception e){
 			
